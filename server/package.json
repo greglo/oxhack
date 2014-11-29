@@ -1,0 +1,19 @@
+{
+  "name"       : "nodj-server",
+  "version"    : "1.0.0",
+  "main"       : "main",
+  "repository" : "git+",
+  "scripts": {
+    "start" : "coffee main.coffee"
+  },
+  "dependencies": {
+    "coffee-script"       : "1.7.x",
+    "express"             : "4.x",
+    "lodash"              : "2.4.x",
+    "q"                   : "1.0.x",
+    "request"             : "2.40.x",
+    "requirejs"           : "2.x"
+  },
+  "devDependencies": {
+  }
+}
