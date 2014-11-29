@@ -14,10 +14,10 @@ class RoomStore
     return { roomId : id }
 
   getRoomState : (roomId) ->
-    @_getRoom(roomId).getJSONState()
+    @_getRoom(roomId).getJSON()
 
   _getRoom : (roomId) ->
-    if @containsRoom(roomId)
+    if @hasRoom(roomId)
       return @_roomsById[roomId]
     else
       throw "Room with id #{roomId} not found"

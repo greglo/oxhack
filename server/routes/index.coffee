@@ -33,10 +33,10 @@ router.post "^/rooms/?$", (req, res) ->
 # Response : RoomState
 router.get "^/rooms/:id(#{roomIdRegex})/?$", (req, res) ->
   roomId = req.params.id
-  if roomStore.hasRoom(roomId)
+  try
     res.send roomStore.getRoomState(roomId)
-  else
-    res.status(404).send { error : "Room with id #{roomId} not found" }
+  catch e
+    res.status(404).send { error : e }
 
 # Response : RoomState
 router.post "^/rooms/#{roomIdRegex}/tracks/?$", (req, res) ->
