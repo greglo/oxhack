@@ -1,2 +1,2 @@
-web: node a.js
+web: node start
 
