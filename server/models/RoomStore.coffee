@@ -5,8 +5,6 @@ class RoomStore
   constructor : ->
     @_roomsById = {}
 
-
-
   hasRoom : (roomId) ->
     _.has @_roomsById, roomId
 
@@ -16,10 +14,10 @@ class RoomStore
     return { roomId : id }
 
   getRoomState : (roomId) ->
-
+    @_getRoom(roomId).getJSON()
 
   _getRoom : (roomId) ->
-    if @containsRoom(roomId)
+    if @hasRoom(roomId)
       return @_roomsById[roomId]
     else
       throw "Room with id #{roomId} not found"

@@ -2,11 +2,14 @@
 
 class Room
   # @id
-  # @queueState
+  # @currentTrack
+  # @queue
 
   constructor : (@id) ->
-    # @queueState = new QueueState
+    @currentTrack = null
+    @queue        = []
 
-  getQueueState : -> @queueState
+  getJSON : -> { @currentTrack, @queue }
+
 
 module.exports = Room
