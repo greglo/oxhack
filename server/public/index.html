@@ -28,47 +28,30 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-    <div class="overlay">
+    <!--<div class="overlay">
       Creating new room.
-    </div>
+    </div>-->
+
+    <div id="player_dummy"></div>
 
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Node DJ</a>
-
-          <input type="text" id="song_search" placeholder="Search" />
         </div>
       </div>
     </nav>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-      </div>
+    <div id="container">
+      <input type="text" id="song_search" placeholder="Search" />
     </div>
 
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        </div>
-      </div>
+    
 
-      <hr>
-
-      <footer>
-        <p>&copy; Company 2014</p>
-      </footer>
-    </div> <!-- /container -->       
-
+    <hr>
+    <footer>
+      <p>&copy; Company 2014</p>
+    </footer>
 
     
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
@@ -76,12 +59,57 @@
 
     <script src="js/vendor/bootstrap.min.js"></script>
 
+    <script src="http://toma.hk/api.js"></script>
+
+    <script src="js/voting.js"></script>
     <script src="js/main.js"></script>
 
     <script>
-    var roomId = null;
-
     $(function() {
+      var roomId = null;
+      var currentTrack = null;
+      var playerDummy = $("#player_dummy");
+
+      var play = function(trackName, artistName) {
+        if (currentTrack != null) {
+          currentTrack.pause();
+        }
+        currentTrack = window.tomahkAPI.Track(trackName, artistName, {
+          width: 0,
+          height: 0,
+          disabledResolvers: [
+              "SoundCloud",
+              "Youtube"
+              // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
+          ],
+          handlers: {
+              onloaded: function() {
+                  //log(currentTrack.connection+":\n  api loaded");
+              },
+              onended: function() {
+                  //log(currentTrack.connection+":\n  Song ended: "+track.artist+" - "+track.title);
+              },
+              onplayable: function() {
+                  //log(currentTrack.connection+":\n  playable");
+                  console.log("playable");
+                  currentTrack.play();
+              },
+              onresolved: function(resolver, result) {
+                  //log(currentTrack.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
+              },
+              ontimeupdate: function(timeupdate) {
+                  var currentTime = timeupdate.currentTime;
+                  var duration = timeupdate.duration;
+                  currentTime = parseInt(currentTime);
+                  duration = parseInt(duration);
+
+                  //log(currentTrack.connection+":\n  Time update: "+currentTime + " "+duration);
+              }
+          }
+        });
+        playerDummy.append(currentTrack.render());
+      };
+
       $.getJSON("/rooms", function(data) {
           roomId = data.roomId;
 
@@ -93,8 +121,6 @@
         minLength: 3,
         source: function(request, response) {
           $.getJSON("https://api.spotify.com/v1/search?q=" + request.term + "&type=track", function(data) {
-              console.log(data.tracks.items);
-
               response(data.tracks.items.slice(0, 5));
             });
         },
@@ -106,24 +132,27 @@
         select: function(event, ui) {
           $("#song_search").val(ui.item.name + ", " + ui.item.artists[0].name);
 
+          play(ui.item.name, ui.item.artists[0].name);
+
           $.post("addTrack", {
             roomId: roomId,
             trackName: ui.item.name,
-            artistName: ui.item.artists[0].name
+            artistName: ui.item.artists[0].name,
+            albumName: ui.item.album.name,
+            albumCover: ui.item.album.images[0].url
           });
 
           return false;
         },
         _resizeMenu: function() {
           this.menu.element.outerWidth(500);
-          this.menu.element.outerHeight(100);
         }
       })
       .autocomplete("instance")._renderItem = function(ul, item) {
         var images = item.album.images;
         return $("<li>")
-          .append("<img src=\"" + images[images.length - 1].url + "\" style=\"float: left;\"/>" +
-            "<a tyle=\"float: right;\">" + item.name + "<br>" + item.artists[0].name + "</a>")
+          .append("<img src=\"" + images[images.length - 1].url + "\" style=\"float: left; height:100%; \"/>" +
+            "<a style=\"float: left;\">" + item.name + "<br>" + item.artists[0].name + "</a>")
           .appendTo(ul);
       };
       // search enter
