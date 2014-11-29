@@ -12,4 +12,4 @@ app.use (req, res, next) ->
     .send('Not found')
 
 
-app.listen 2014
+app.listen (process.env.PORT || 2014)
