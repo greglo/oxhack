@@ -3,6 +3,8 @@ routes = require('./routes')
 
 app = express()
 app.use '/', routes
+app.use express.static('public')
+
 
 # catch 404 and forwarding to error handler
 app.use (req, res, next) ->
