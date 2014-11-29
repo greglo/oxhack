@@ -16,6 +16,14 @@ class RoomStore
   getRoomState : (roomId) ->
     @_getRoom(roomId).getJSON()
 
+  upvoteRoom : (roomId, trackId) ->
+    room = @_getRoom(roomId)
+    room.upvoteTrack trackId
+
+  downvoteRoom : (roomId, trackId) ->
+    room = @_getRoom(roomId)
+    room.downvoteTrack trackId
+
   _getRoom : (roomId) ->
     if @hasRoom(roomId)
       return @_roomsById[roomId]

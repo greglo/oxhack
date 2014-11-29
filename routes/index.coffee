@@ -43,15 +43,30 @@ router.post "^/rooms/#{roomIdRegex}/tracks/?$", (req, res) ->
   res.send 'Uploaded track'
 
 # Response : RoomState
-router.post "^/rooms/#{roomIdRegex}/tracks/#{trackIdRegex}/upvote/?$", (req, res) ->
-  res.send 'Upvoted track'
+router.post "^/rooms/:roomId(#{roomIdRegex})/tracks/:trackId(#{trackIdRegex})/upvote/?$", (req, res) ->
+  { roomId, trackId } = req.params
+  try
+    roomStore.upvoteTrack roomId, trackId
+    res.send roomStore.getRoomState(roomId)
+  catch e
+    res.status(404).send { error : e }
 
 # Response : RoomState
-router.post "^/rooms/#{roomIdRegex}/tracks/#{trackIdRegex}/downvote/?$", (req, res) ->
-  res.send 'Downvoted track'
+router.post "^/rooms/:roomId(#{roomIdRegex})/tracks/:trackId(#{trackIdRegex})/downvote/?$", (req, res) ->
+  { roomId, trackId } = req.params
+  try
+    roomStore.downvoteTrack roomId, trackId
+    res.send roomStore.getRoomState(roomId)
+  catch e
+    res.status(404).send { error : e }
 
 # Response : RoomState
-router.post "^/rooms/#{roomIdRegex}/playNext/?$", (req, res) ->
-  res.send 'Playing next track'
+router.post "^/rooms/:id(#{roomIdRegex})/playNext/?$", (req, res) ->
+  roomId = req.params.id
+  try
+    roomStore.playNext roomId
+    res.send roomStore.getRoomState(roomId)
+  catch e
+    res.status(404).send { error : e }
 
 module.exports = router
