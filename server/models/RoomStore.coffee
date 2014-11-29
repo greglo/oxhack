@@ -5,8 +5,6 @@ class RoomStore
   constructor : ->
     @_roomsById = {}
 
-
-
   hasRoom : (roomId) ->
     _.has @_roomsById, roomId
 
@@ -16,7 +14,7 @@ class RoomStore
     return { roomId : id }
 
   getRoomState : (roomId) ->
-
+    @_getRoom(roomId).getJSONState()
 
   _getRoom : (roomId) ->
     if @containsRoom(roomId)
