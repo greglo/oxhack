@@ -1,8 +1,12 @@
-express = require('express')
+express   = require('express')
+RoomStore = require('../models/RoomStore')
+
 router = express.Router()
 
 roomIdRegex = '[a-zA-Z]{5}'
 trackIdRegex = '[0-9]+'
+
+roomStore = new RoomStore()
 
 # RoomState ::
 # {
@@ -15,7 +19,7 @@ trackIdRegex = '[0-9]+'
 #   id        : 123
 #   name      : 'Yellow Submarine'
 #   artist    : "The Beatles"
-#   alburm    : "No idea"
+#   album    : "No idea"
 #   thumbnail : 'http://image.url.com'
 # }
 
@@ -24,11 +28,15 @@ trackIdRegex = '[0-9]+'
 #   roomId : 'AAAAA'
 # }
 router.post "^/rooms/?$", (req, res) ->
-  res.send 'Created new room'
+  res.send roomStore.createRoom()
 
 # Response : RoomState
-router.get "^/rooms/#{roomIdRegex}$", (req, res) ->
-  res.send 'Got room state'
+router.get "^/rooms/:id(#{roomIdRegex})/?$", (req, res) ->
+  roomId = req.params.id
+  if roomStore.hasRoom(roomId)
+    res.send roomStore.getRoomState(roomId)
+  else
+    res.status(404).send "Room with id #{roomId} not found"
 
 # Response : RoomState
 router.post "^/rooms/#{roomIdRegex}/tracks/?$", (req, res) ->
