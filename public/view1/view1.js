@@ -199,7 +199,7 @@ angular.module('myApp.view1', ['ngRoute'])
 	    }
       };
 
-      /*var fetch = function() {
+      var fetch = function() {
       	$.ajax({
           	type: "GET",
           	url: "/rooms/" + $scope.roomId,
@@ -210,6 +210,6 @@ angular.module('myApp.view1', ['ngRoute'])
         });
       };
       fetch();
-      setInterval(fetch, 2000);*/
+      setInterval(fetch, 2000);
 
 }]);
