@@ -50,10 +50,29 @@ angular.module('myApp.view1', ['ngRoute'])
 	};*/
 
     var update = function(data) {
+    	if (data.pendingArtist) {
+    		$.getJSON("https://api.spotify.com/v1/search?q=" + data.pendingArtist + "&type=track", function(data) {
+    			var data = data.tracks.items;
+    			if (data.length > 1) {
+    				$.ajax({
+			          	type: "POST",
+			          	url: "/rooms/" + $scope.roomId + "/tracks",
+			          	data: JSON.stringify({
+				            "name": data[1].name,
+				            "artist": data[1].artists[0].name,
+				            "album": data[1].album.name,
+				            "thumbnail": data[1].album.images[0].url
+			          	}),
+			          	contentType: "application/json",
+			          	success: update,
+			          	dataType: "json"
+			          });
+    			}
+            });
+    	}
     	$scope.$apply(function() {
     		$scope.currentTrack = data.currentTrack;
     		$scope.queue = data.queue;
-    		$scope.animate = true;
 
     		/*if ($scope.currentTrack === null) {
     			$scope.nextClicked();
@@ -201,7 +220,6 @@ angular.module('myApp.view1', ['ngRoute'])
       };
 
       var fetch = function() {
-      	$scope.animate = false;
       	$.ajax({
           	type: "GET",
           	url: "/rooms/" + $scope.roomId,
