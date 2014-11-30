@@ -54,6 +54,6 @@ class RoomStore
     id = possiblyNotUniqueId()
     while (_.has @_roomsById, id)
       id = possiblyNotUniqueId()
-    'AAAAA'
+    id
 
 module.exports = RoomStore
