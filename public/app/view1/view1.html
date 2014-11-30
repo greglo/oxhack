@@ -1,0 +1,22 @@
+<div>
+	<h1>nodj</h1>
+	<div id="player_dummy"></div>
+	<div>
+		<input type="text" id="song_search" placeholder="Search" />
+	</div>
+
+	<div ng-repeat="item in queue | orderBy: queueSorter">
+		<img src="{{item.thumbnail}}" style="height: 40px;" />
+		<span>{{item.name}}</span>
+		<span>{{item.artist}}</span>
+		<span>{{item.album}}</span>
+		<span>votes: {{item.votes}}</span>
+		<button ng-click="vote(item, 1)">upvote</button>
+		<button ng-click="vote(item, -1)">downvote</button>
+		<br>
+	</div>
+
+	<div>
+		currently playing: {{}}
+	</div>
+</div>

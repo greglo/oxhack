@@ -46,7 +46,33 @@
       <input type="text" id="song_search" placeholder="Search" />
     </div>
 
-    
+    <table id="queue">
+        <thead>
+            <tr>
+                <th>Pos</th>
+                <th data-sort-type='none'>Name</th>
+                <th data-sort-type='none'>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="value">1</td>
+                <td>A</td>
+                <td>Some number</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>B</td>
+                <td>Some number</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>B</td>
+                <td>Some number</td>
+            </tr>
+        </tbody>
+    </table>
+    <button id="test">animate</button>
 
     <hr>
     <footer>
@@ -61,7 +87,8 @@
 
     <script src="http://toma.hk/api.js"></script>
 
-    <script src="js/voting.js"></script>
+    <script src="js/jquery.isotope.js"></script>
+    <script src="js/isortope.js"></script>
     <script src="js/main.js"></script>
 
     <script>
@@ -163,6 +190,19 @@
           $(this).autocomplete('close');
         }
       });
+
+      // table animation
+      $("#queue").isortope({
+        autoResort: true,
+        autoResortContent: true
+      });
+
+      
+      $("#test").click(function() {
+        $("#value").html("0");
+      });
+
+
     });       
     </script>
   </body>
