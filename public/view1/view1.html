@@ -1,4 +1,3 @@
-<div id="player_dummy"></div>
 <div>
 	<div id="header-wrap">
 		<div id="header">
@@ -10,19 +9,24 @@
 	</div>
 
 	<div id="main-view">
+
+		<h1>Currently Playing: <span class="currentname">{{currentTrack.name}}</span></h1>
+
 		<div>
 			<input type="text" id="song_search" placeholder="Search" />
 		</div>
 
-		<div>
+		<div><center>
 			<span ng-show="isPlaying">{{currentTime}} / {{duration}}</span> <br>
-			currently playing: {{currentTrack.name}} <br>
-			<button ng-click="playClicked()">PLAY</button>
-			<button ng-click="pauseClicked()">PAUSE</button>
-			<button ng-click="nextClicked()">NEXT</button>
+			<button class="control" ng-show="isPlaying" ng-click="pauseClicked()"><i class="fa fa-pause"></i></button>
+			<button class="control" ng-hide="isPlaying" ng-click="playClicked()"><i class="fa fa-play"></i></button>
+			<button class="control" ng-click="nextClicked()"><i class="fa fa-forward"></i></button>
+		</center>
 		</div>
+
+		<br>
 		<div class="item" ng-repeat="item in queue | orderBy: queueSorter">
-			<img class="thumbnail" src="{{item.thumbnail}}" style="height: 40px;" />
+			<img class="thumbnail" src="{{item.thumbnail}}" />
 			<span class="deets">
 				<div class="name">{{item.name}}</div>
 				<div class="artist">{{item.artist}}</div>

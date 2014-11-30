@@ -29,7 +29,7 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.queueSorter = function(item) {
 		return -(item.upvotes-item.downvotes);
 	}
-	$scope.upvote = function(item) {
+	/*$scope.upvote = function(item) {
 		item.upvotes += 1;
 		$.ajax({
           	type: "POST",
@@ -48,28 +48,29 @@ angular.module('myApp.view1', ['ngRoute'])
           	success: update,
           	dataType: "json"
         });
-	};
+	};*/
 
     var update = function(data) {
     	$scope.$apply(function() {
     		$scope.currentTrack = data.currentTrack;
     		$scope.queue = data.queue;
 
-    		if ($scope.currentTrack === null) {
+    		/*if ($scope.currentTrack === null) {
     			$scope.nextClicked();
-    		}
+    		}*/
     	});
     };
 
 	var player = null;
 
 	var play = function(trackName, artistName) {
-	    if (player != null) {
+		console.log(trackName + " "+ artistName + " " + player);
+	    if (player != null && $scope.isPlaying) {
 	      player.pause();
 	    }
 	    player = window.tomahkAPI.Track(trackName, artistName, {
-	      width: 0,
-	      height: 0,
+	      width: 10,
+	      height: 10,
 	      disabledResolvers: [
 	          "SoundCloud",
 	          "Youtube"
@@ -77,12 +78,13 @@ angular.module('myApp.view1', ['ngRoute'])
 	      ],
 	      handlers: {
 	          onloaded: function() {
-	              //log(currentTrack.connection+":\n  api loaded");
+	              console.log("api loaded");
 	          },
 	          onended: function() {
 	          	$scope.nextClicked();
 	          },
 	          onplayable: function() {
+	          	  console.log(trackName + " "+ artistName);
 	              player.play();
 	              $scope.isPlaying = true;
 	          },
@@ -146,8 +148,8 @@ angular.module('myApp.view1', ['ngRoute'])
       .autocomplete("instance")._renderItem = function(ul, item) {
         var images = item.album.images;
         return $("<li>")
-          .append("<img src=\"" + images[images.length - 1].url + "\" style=\"float: left; height:100%; \"/>" +
-            "<a style=\"float: left;\">" + item.name + "<br>" + item.artists[0].name + "</a>")
+          .append("<img class=\"dropthumbnail\" src=\"" + images[images.length - 1].url + "\"/>" +
+            "<a style=\"float: left;\"> <span class=\"dropname\">" + item.name + "</span><br><span class=\"dropartist\">" + item.artists[0].name + "</span></a>")
           .appendTo(ul);
       };
       // search enter
@@ -164,6 +166,7 @@ angular.module('myApp.view1', ['ngRoute'])
       $scope.nextClicked = function() {
       	if (player != null && $scope.isPlaying) {
 	      player.pause();
+	      $scope.isPlaying = false;
 	      player = null;
 	    }
       	$.ajax({
@@ -172,7 +175,9 @@ angular.module('myApp.view1', ['ngRoute'])
           	contentType: "application/json",
           	success: function(data) {
           		update(data);
-          		play($scope.currentTrack.name, $scope.currentTrack.artist);
+          		if ($scope.currentTrack != null) {
+          			play($scope.currentTrack.name, $scope.currentTrack.artist);
+          		}
           	},
           	dataType: "json"
         });

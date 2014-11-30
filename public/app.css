@@ -30,12 +30,14 @@
 }
 
 body {
-  background-image: url('bg.jpg');
+  background-size: cover;
+  background-image: url('https://unsplash.imgix.net/21/shaggy.JPG?q=75&fm=jpg&s=2cce7b62caf40ee63ed9e86c1600f12e');
 }
 
 #header-wrap {
-  background-color: #000;
+  background-color: rgb(32,30,35);
   width: 100%;
+  padding: 15px;
 }
 
 #header {
@@ -67,19 +69,55 @@ body {
 }
 
 #main-view {
-  max-width: 400px;
+  max-width: 800px;
   margin: auto;
 }
 
 #song_search {
   width: 100%;
+  padding: 15px;
+  box-shadow: none !important;
+  border: none !important;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding-left: 20px;
+}
+
+.control {
+  background: none;
+  border: none;
+  padding: 10px;
+  font-size: 1.4em;
+  display: inline-block;
+  color: rgba(0,0,0,0.75);
+}
+
+.control:hover{
+  color: rgba(0,0,0,1);;
+}
+
+#song_search:focus{
+  outline: none;
 }
 
 .item {
   margin-top:1px;
   width: 100%;
-  padding: 10px;
-  background-color: rgba(153,51,255,0.2);
+  padding: 15px;
+  padding-left: 20px;
+  background-color: rgba(255,255,255,0.55);
+  font-family: 'Open Sans', sans-serif;
+}
+
+.name {
+  font-size: 1.5em;
+  margin-left: 10px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.artist {
+  color: rgba(0,0,0,0.65);
+  margin-left: 13px;
 }
 
 .item .thumbnail {
@@ -90,5 +128,54 @@ body {
   float: left;
   padding-left: 10px;
 }
+
+.ui-menu .ui-menu-item a{
+    height: auto;
+}
+
+.ui-menu .ui-menu-item {
+  height: 50px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+} 
+
+.dropthumbnail {
+  height: 100%;
+  margin-right: 10px;
+  float:left;
+}
+
+.currentname {
+  font-weight: 300;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.thumbnail {
+  height: 70px;
+}
+
+h1 {
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -1px;
+  font-weight: normal;
+  font-size: 1.6em;
+  color: rgb(30,30,30);
+}
+
+#player_dummy {
+  display: none;
+}
+
+.dropname {
+  font-size: 1em;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.dropartist {
+  font-size: 0.8em;
+  font-family: 'Open Sans', sans-serif;
+}
+
 
 .deets .
