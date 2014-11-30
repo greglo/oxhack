@@ -20,8 +20,10 @@ roomStore = new RoomStore()
 #   id        : 123
 #   name      : 'Yellow Submarine'
 #   artist    : "The Beatles"
-#   album    : "No idea"
+#   album     : "No idea"
 #   thumbnail : 'http://image.url.com'
+#   upvotes   : 1
+#   downvotes : 2
 # }
 
 # Response :
