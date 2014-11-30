@@ -78,16 +78,20 @@ angular.module('myApp.view1', ['ngRoute'])
 	          onplayable: function() {
 	              //log(currentTrack.connection+":\n  playable");
 	              player.play();
-	              
+	              $scope.isPlaying = true;
 	          },
 	          onresolved: function(resolver, result) {
 	              //log(currentTrack.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
 	          },
 	          ontimeupdate: function(timeupdate) {
-	              var currentTime = timeupdate.currentTime;
-	              var duration = timeupdate.duration;
-	              currentTime = parseInt(currentTime);
-	              duration = parseInt(duration);
+	          		var currentTime = timeupdate.currentTime;
+	              	var duration = timeupdate.duration;
+	              	
+	          		$scope.$apply(function() {
+	          			$scope.currentTime = parseInt(currentTime);
+	              		$scope.duration = parseInt(duration);
+	          		});
+	              
 
 	              //log(currentTrack.connection+":\n  Time update: "+currentTime + " "+duration);
 	          }
@@ -152,8 +156,9 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
       $scope.nextClicked = function() {
-      	if (player != null) {
+      	if (player != null && $scope.isPlaying) {
 	      player.pause();
+	      player = null;
 	    }
       	$.ajax({
           	type: "POST",
@@ -167,16 +172,21 @@ angular.module('myApp.view1', ['ngRoute'])
         });
       };
       $scope.playClicked = function() {
+      	if ($scope.isPlaying) {
+      		return;
+      	}
       	if (player != null) {
       		player.play();
+      		$scope.isPlaying = true;
       	}
       	else {
       		$scope.nextClicked();
       	}
       };
       $scope.pauseClicked = function() {
-      	if (player != null) {
+      	if (player != null && $scope.isPlaying) {
 	      player.pause();
+	      $scope.isPlaying = false;
 	    }
       };
 

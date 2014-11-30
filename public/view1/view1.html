@@ -1,14 +1,26 @@
+<div id="player_dummy"></div>
 <div>
-	<div id="header">
-		<h1>nodj</h1>
+	<div id="header-wrap">
+		<div id="header">
+			<div id="logo"></div>
+			<span id="room-display">
+				PlayGroup: <span id="room-id">{{roomId}}</span>
+			</div>
+		</div>
 	</div>
-	<div id="player_dummy"></div>
 
 	<div id="main-view">
 		<div>
 			<input type="text" id="song_search" placeholder="Search" />
 		</div>
 
+		<div>
+			<span ng-show="isPlaying">{{currentTime}} / {{duration}}</span> <br>
+			currently playing: {{currentTrack.name}} <br>
+			<button ng-click="playClicked()">PLAY</button>
+			<button ng-click="pauseClicked()">PAUSE</button>
+			<button ng-click="nextClicked()">NEXT</button>
+		</div>
 		<div ng-repeat="item in queue | orderBy: queueSorter">
 			<img src="{{item.thumbnail}}" style="height: 40px;" />
 			<span>{{item.name}}</span>
@@ -20,16 +32,5 @@
 			<br>
 		</div>
 
-		<div>
-			room number: {{roomId}}
-		</div>
-
-		<div>
-			currently playing: {{currentTrack.name}} <br>
-
-			<button ng-click="playClicked()">PLAY</button>
-			<button ng-click="pauseClicked()">PAUSE</button>
-			<button ng-click="nextClicked()">NEXT</button>
-		</div>
 	</div>
 </div>

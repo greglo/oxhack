@@ -30,17 +30,40 @@
 }
 
 body {
-  background-image: url('zwartevilt.png');
+  background-image: url('bg.jpg');
+}
+
+#header-wrap {
+  background-color: #000;
+  width: 100%;
 }
 
 #header {
-  height: 300px;
-  width: 600px;
+  height: 50px;
+  width: 100%;
+  max-width: 800px;
   margin: auto;
+}
+
+#logo {
+  height: 100%;
   background-image: url('logorino.png');
   background-size: contain;
   background-repeat: no-repeat;
-  color: transparent;
+  float: left;
+  width: 100px;
+}
+
+#room-display {
+  float:right;
+  line-height: 50px;
+  color: #EEE;
+  font-size: 18px;
+}
+
+#room-id {
+  color: #f85959;
+  font-weight: bold;
 }
 
 #main-view {
