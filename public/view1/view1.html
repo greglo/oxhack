@@ -15,11 +15,11 @@
 		<h1>Currently Playing: <span class="currentname">{{currentTrack.name}}</span></h1>
 
 		<div>
-			<input type="text" id="song_search" placeholder="Search" />
+			<input type="text" id="song_search" placeholder="Add track..." />
 		</div>
 
 		<div><center>
-			<span ng-show="isPlaying">{{currentTime}} / {{duration}}</span> <br>
+			<!--<span ng-show="isPlaying">{{currentTime}} / {{duration}}</span> <br>-->
 			<button class="control" ng-show="isPlaying" ng-click="pauseClicked()"><i class="fa fa-pause"></i></button>
 			<button class="control" ng-hide="isPlaying" ng-click="playClicked()"><i class="fa fa-play"></i></button>
 			<button class="control" ng-click="nextClicked()"><i class="fa fa-forward"></i></button>
@@ -27,12 +27,13 @@
 		</div>
 
 		<br>
-		<div class="item" ng-repeat="item in queue | orderBy: queueSorter">
+		<div class="item" ng-repeat="item in queue | orderBy: queueSorter | limitTo: 4">
 			<img class="thumbnail" ng-src="{{item.thumbnail}}" />
 			<span class="deets">
 				<div class="name">{{item.name}}</div>
 				<div class="artist">{{item.artist}}</div>
 			</span>
+			{{item.upvotes - item.downvotes}}
 			<div style="clear: both;"></div>
 		</div>
 	</div>

@@ -48,12 +48,14 @@ body {
 }
 
 #logo {
-  height: 100%;
+  height: 120%;
   background-image: url('logorino.png');
   background-size: contain;
   background-repeat: no-repeat;
   float: left;
-  width: 100px;
+  width: 200px;
+  /*margin-top: 3px;*/
+  margin-left: -20px;
 }
 
 #room-display {
