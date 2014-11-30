@@ -92,7 +92,8 @@ angular.module('myApp.view1', ['ngRoute'])
 	      height: 10,
 	      disabledResolvers: [
 	          "Youtube",
-	          "SpotifyMetadata"
+	          "SpotifyMetadata",
+	          "Rdio"
 	          // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
 	      ],
 	      handlers: {
@@ -108,7 +109,7 @@ angular.module('myApp.view1', ['ngRoute'])
 	              $scope.isPlaying = true;
 	          },
 	          onresolved: function(resolver, result) {
-	              //consoler.log(play.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
+	              consoler.log(play.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
 	          },
 	          ontimeupdate: function(timeupdate) {
 	          		var currentTime = timeupdate.currentTime;
