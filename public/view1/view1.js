@@ -11,7 +11,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
 .controller('View1Ctrl', ['$scope', function($scope) {
 	$scope.queueSorter = function(item) {
-		return -parseInt(item.votes, 10);
+		return -(item.upvotes-item.downvotes);
 	}
 	$scope.upvote = function(item) {
 		item.upvotes += 1;
@@ -36,6 +36,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
 	$scope.roomId = null;
     $scope.currentTrack = null;
+    $scope.isPlaying = false;
     $scope.queue = [];
 
 	$.post("/rooms", function(data) {
@@ -76,8 +77,8 @@ angular.module('myApp.view1', ['ngRoute'])
 	          },
 	          onplayable: function() {
 	              //log(currentTrack.connection+":\n  playable");
-	              console.log("playable");
 	              player.play();
+	              
 	          },
 	          onresolved: function(resolver, result) {
 	              //log(currentTrack.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
@@ -150,8 +151,10 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
 
-
-      $scope.playClicked = function() {
+      $scope.nextClicked = function() {
+      	if (player != null) {
+	      player.pause();
+	    }
       	$.ajax({
           	type: "POST",
           	url: "/rooms/" + $scope.roomId + "/playNext",
@@ -162,7 +165,19 @@ angular.module('myApp.view1', ['ngRoute'])
           	},
           	dataType: "json"
         });
-
-      };   
+      };
+      $scope.playClicked = function() {
+      	if (player != null) {
+      		player.play();
+      	}
+      	else {
+      		$scope.nextClicked();
+      	}
+      };
+      $scope.pauseClicked = function() {
+      	if (player != null) {
+	      player.pause();
+	    }
+      };
 
 }]);
