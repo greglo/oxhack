@@ -1,209 +1,39 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+  <link rel="stylesheet" href="app.css">
+  <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <style>
-            body {
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
-        </style>
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="css/main.css">
+  <div ng-view></div>
 
-        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
 
-    <!--<div class="overlay">
-      Creating new room.
-    </div>-->
-
-    <div id="player_dummy"></div>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Node DJ</a>
-        </div>
-      </div>
-    </nav>
-
-    <div id="container">
-      <input type="text" id="song_search" placeholder="Search" />
-    </div>
-
-    <table id="queue">
-        <thead>
-            <tr>
-                <th>Pos</th>
-                <th data-sort-type='none'>Name</th>
-                <th data-sort-type='none'>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td id="value">1</td>
-                <td>A</td>
-                <td>Some number</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>B</td>
-                <td>Some number</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>B</td>
-                <td>Some number</td>
-            </tr>
-        </tbody>
-    </table>
-    <button id="test">animate</button>
-
-    <hr>
-    <footer>
-      <p>&copy; Company 2014</p>
-    </footer>
-
-    
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-
-    <script src="js/vendor/bootstrap.min.js"></script>
-
-    <script src="http://toma.hk/api.js"></script>
-
-    <script src="js/jquery.isotope.js"></script>
-    <script src="js/isortope.js"></script>
-    <script src="js/main.js"></script>
-
-    <script>
-    $(function() {
-      var roomId = null;
-      var currentTrack = null;
-      var playerDummy = $("#player_dummy");
-
-      var play = function(trackName, artistName) {
-        if (currentTrack != null) {
-          currentTrack.pause();
-        }
-        currentTrack = window.tomahkAPI.Track(trackName, artistName, {
-          width: 0,
-          height: 0,
-          disabledResolvers: [
-              "SoundCloud",
-              "Youtube"
-              // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
-          ],
-          handlers: {
-              onloaded: function() {
-                  //log(currentTrack.connection+":\n  api loaded");
-              },
-              onended: function() {
-                  //log(currentTrack.connection+":\n  Song ended: "+track.artist+" - "+track.title);
-              },
-              onplayable: function() {
-                  //log(currentTrack.connection+":\n  playable");
-                  console.log("playable");
-                  currentTrack.play();
-              },
-              onresolved: function(resolver, result) {
-                  //log(currentTrack.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
-              },
-              ontimeupdate: function(timeupdate) {
-                  var currentTime = timeupdate.currentTime;
-                  var duration = timeupdate.duration;
-                  currentTime = parseInt(currentTime);
-                  duration = parseInt(duration);
-
-                  //log(currentTrack.connection+":\n  Time update: "+currentTime + " "+duration);
-              }
-          }
-        });
-        playerDummy.append(currentTrack.render());
-      };
-
-      $.getJSON("/rooms", function(data) {
-          roomId = data.roomId;
-
-          $(".overlay").hide()
-
-      });
-      // search autocomplete
-      $("#song_search").autocomplete({
-        minLength: 3,
-        source: function(request, response) {
-          $.getJSON("https://api.spotify.com/v1/search?q=" + request.term + "&type=track", function(data) {
-              response(data.tracks.items.slice(0, 5));
-            });
-        },
-        focus: function(event, ui) {
-          $("#song_search").val(ui.item.name + ", " + ui.item.artists[0].name);
-
-          return false;
-        },
-        select: function(event, ui) {
-          $("#song_search").val(ui.item.name + ", " + ui.item.artists[0].name);
-
-          play(ui.item.name, ui.item.artists[0].name);
-
-          $.post("addTrack", {
-            roomId: roomId,
-            trackName: ui.item.name,
-            artistName: ui.item.artists[0].name,
-            albumName: ui.item.album.name,
-            albumCover: ui.item.album.images[0].url
-          });
-
-          return false;
-        },
-        _resizeMenu: function() {
-          this.menu.element.outerWidth(500);
-        }
-      })
-      .autocomplete("instance")._renderItem = function(ul, item) {
-        var images = item.album.images;
-        return $("<li>")
-          .append("<img src=\"" + images[images.length - 1].url + "\" style=\"float: left; height:100%; \"/>" +
-            "<a style=\"float: left;\">" + item.name + "<br>" + item.artists[0].name + "</a>")
-          .appendTo(ul);
-      };
-      // search enter
-      $("#song_search").keypress(function(e) {
-        if(e.keyCode == 13) {
-          e.preventDefault();
-          sendSelected(this.value);
-          $(this).autocomplete('close');
-        }
-      });
-
-      // table animation
-      $("#queue").isortope({
-        autoResort: true,
-        autoResortContent: true
-      });
-
-      
-      $("#test").click(function() {
-        $("#value").html("0");
-      });
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 
 
-    });       
-    </script>
-  </body>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="http://toma.hk/api.js"></script>
+  <script src="app.js"></script>
+  <script src="view1/view1.js"></script>
+</body>
 </html>

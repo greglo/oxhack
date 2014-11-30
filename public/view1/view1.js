@@ -10,22 +10,6 @@ angular.module('myApp.view1', ['ngRoute'])
 }])
 
 .controller('View1Ctrl', ['$scope', function($scope) {
-	$scope.queue = [
-		{
-			name      : 'Yellow Submarine',
-			artist    : "The Beatles",
-			album    : "No idea",
-			thumbnail : "http://www.avsforum.com/photopost/data/2277869/9/9f/9f50538d_test.jpeg",
-			votes: 0
-		},
-		{
-			name      : 'Yellow Submarine2',
-			artist    : "The Beatles",
-			album    : "No idea",
-			thumbnail : "http://www.avsforum.com/photopost/data/2277869/9/9f/9f50538d_test.jpeg",
-			votes: 0
-		}
-	];
 	$scope.queueSorter = function(item) {
 		return -parseInt(item.votes, 10);
 	}
@@ -35,13 +19,22 @@ angular.module('myApp.view1', ['ngRoute'])
 
 	$scope.roomId = null;
     $scope.currentTrack = null;
+    $scope.queue = [];
 
-	$.getJSON("/rooms", function(data) {
-          $scope.roomId = data.roomId;
-
-          //$(".overlay").hide()
-
+	$.post("/rooms", function(data) {
+		$scope.$apply(function() {
+			$scope.roomId = data.roomId;
+		});
     });
+
+    var update = function(data) {
+    	$scope.$apply(function() {
+    		$scope.currentTrack = data.currentTrack;
+    		$scope.queue = data.queue;
+    	});
+
+    	console.log(data);
+    };
 
 	var player = null;
 
@@ -100,26 +93,16 @@ angular.module('myApp.view1', ['ngRoute'])
           return false;
         },
         select: function(event, ui) {
-          $("#song_search").val(ui.item.name + ", " + ui.item.artists[0].name);
+          //$("#song_search").val(ui.item.name + ", " + ui.item.artists[0].name);
 
-          play(ui.item.name, ui.item.artists[0].name);
+          console.log("NNOOW");
 
-          $.post("addTrack", {
-            roomId: $scope.roomId,
+          $.post("/rooms/" + $scope.roomId + "/tracks", {
             name: ui.item.name,
             artist: ui.item.artists[0].name,
             album: ui.item.album.name,
             thumbnail: ui.item.album.images[0].url
-          });
-
-          $scope.$apply(function() {
-          	$scope.queue.push({
-	          	name: ui.item.name,
-	            artist: ui.item.artists[0].name,
-	            album: ui.item.album.name,
-	            thumbnail: ui.item.album.images[0].url
-	        });
-          });
+          }, update, "json");
 
           return false;
         },
@@ -141,6 +124,16 @@ angular.module('myApp.view1', ['ngRoute'])
           sendSelected(this.value);
           $(this).autocomplete('close');
         }
-      });       
+      });   
+
+
+
+
+      $scope.playClicked = function() {
+      	$.post("/rooms/" + $scope.roomId + "/playNext", {}, function() {
+      		update();
+      		play($scope.currentTrack.name, $scope.currentTrack.artist);
+      	});
+      };   
 
 }]);
