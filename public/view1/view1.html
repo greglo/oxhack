@@ -4,7 +4,7 @@
 		<div id="header">
 			<div id="logo"></div>
 			<span id="room-display">
-				PlayGroup: <span id="room-id">{{roomId}}</span>
+				Party: <span id="room-id">{{roomId}}</span>
 			</div>
 		</div>
 	</div>
@@ -21,16 +21,13 @@
 			<button ng-click="pauseClicked()">PAUSE</button>
 			<button ng-click="nextClicked()">NEXT</button>
 		</div>
-		<div ng-repeat="item in queue | orderBy: queueSorter">
-			<img src="{{item.thumbnail}}" style="height: 40px;" />
-			<span>{{item.name}}</span>
-			<span>{{item.artist}}</span>
-			<span>{{item.album}}</span>
-			<span>votes: {{item.upvotes-item.downvotes}}</span>
-			<button ng-click="upvote(item)">upvote</button>
-			<button ng-click="downvote(item)">downvote</button>
-			<br>
+		<div class="item" ng-repeat="item in queue | orderBy: queueSorter">
+			<img class="thumbnail" src="{{item.thumbnail}}" style="height: 40px;" />
+			<span class="deets">
+				<div class="name">{{item.name}}</div>
+				<div class="artist">{{item.artist}}</div>
+			</span>
+			<div style="clear: both;"></div>
 		</div>
-
 	</div>
 </div>

@@ -74,3 +74,21 @@ body {
 #song_search {
   width: 100%;
 }
+
+.item {
+  margin-top:1px;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(153,51,255,0.2);
+}
+
+.item .thumbnail {
+  float: left;
+}
+
+.item .deets {
+  float: left;
+  padding-left: 10px;
+}
+
+.deets .
