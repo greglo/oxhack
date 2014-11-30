@@ -22,9 +22,11 @@
 
 	<div>
 		currently playing: {{currentTrack.name}} <br>
+		<span ng-show="isPlaying">{{currentTime}} / {{duration}}</span> <br>
 
 		<button ng-click="playClicked()">PLAY</button>
 		<button ng-click="pauseClicked()">PAUSE</button>
 		<button ng-click="nextClicked()">NEXT</button>
+
 	</div>
 </div>
