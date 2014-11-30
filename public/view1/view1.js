@@ -93,7 +93,8 @@ angular.module('myApp.view1', ['ngRoute'])
 	      disabledResolvers: [
 	          "Youtube",
 	          "SpotifyMetadata",
-	          "Rdio"
+	          "Rdio",
+	          "Exfm"
 	          // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
 	      ],
 	      handlers: {
