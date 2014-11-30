@@ -1,30 +1,35 @@
 <div>
-	<h1>nodj</h1>
+	<div id="header">
+		<h1>nodj</h1>
+	</div>
 	<div id="player_dummy"></div>
-	<div>
-		<input type="text" id="song_search" placeholder="Search" />
-	</div>
 
-	<div ng-repeat="item in queue | orderBy: queueSorter">
-		<img src="{{item.thumbnail}}" style="height: 40px;" />
-		<span>{{item.name}}</span>
-		<span>{{item.artist}}</span>
-		<span>{{item.album}}</span>
-		<span>votes: {{item.upvotes-item.downvotes}}</span>
-		<button ng-click="upvote(item)">upvote</button>
-		<button ng-click="downvote(item)">downvote</button>
-		<br>
-	</div>
+	<div id="main-view">
+		<div>
+			<input type="text" id="song_search" placeholder="Search" />
+		</div>
 
-	<div>
-		room number: {{roomId}}
-	</div>
+		<div ng-repeat="item in queue | orderBy: queueSorter">
+			<img src="{{item.thumbnail}}" style="height: 40px;" />
+			<span>{{item.name}}</span>
+			<span>{{item.artist}}</span>
+			<span>{{item.album}}</span>
+			<span>votes: {{item.upvotes-item.downvotes}}</span>
+			<button ng-click="upvote(item)">upvote</button>
+			<button ng-click="downvote(item)">downvote</button>
+			<br>
+		</div>
 
-	<div>
-		currently playing: {{currentTrack.name}} <br>
+		<div>
+			room number: {{roomId}}
+		</div>
 
-		<button ng-click="playClicked()">PLAY</button>
-		<button ng-click="pauseClicked()">PAUSE</button>
-		<button ng-click="nextClicked()">NEXT</button>
+		<div>
+			currently playing: {{currentTrack.name}} <br>
+
+			<button ng-click="playClicked()">PLAY</button>
+			<button ng-click="pauseClicked()">PAUSE</button>
+			<button ng-click="nextClicked()">NEXT</button>
+		</div>
 	</div>
 </div>

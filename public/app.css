@@ -28,3 +28,26 @@
   content: "";
   padding: 0;
 }
+
+body {
+  background-image: url('zwartevilt.png');
+}
+
+#header {
+  height: 300px;
+  width: 600px;
+  margin: auto;
+  background-image: url('logorino.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+
+#main-view {
+  max-width: 400px;
+  margin: auto;
+}
+
+#song_search {
+  width: 100%;
+}
