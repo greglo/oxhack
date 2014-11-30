@@ -1,19 +1,34 @@
 'use strict';
 
 angular.module('myApp.view1', ['ngRoute'])
-
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
+  $routeProvider.when('/party/:partyId', {
     templateUrl: 'view1/view1.html',
     controller: 'View1Ctrl'
   });
 }])
+.controller('View1Ctrl', ['$scope', '$routeParams', '$location', function($scope, $routeParams, $location) {
+	if ($routeParams.partyId === 'new') {
+		$.post("/rooms", function(data) {
+			$scope.$apply(function() {
+				$scope.roomId = data.roomId;
+				$location.path('/party/' + data.roomId);
+			});
+	    });
+	    return;
+	}
 
-.controller('View1Ctrl', ['$scope', function($scope) {
+	$scope.roomId = $routeParams.partyId;
+
+	$scope.currentTrack = null;
+    $scope.isPlaying = false;
+    $scope.queue = [];
+
+
 	$scope.queueSorter = function(item) {
 		return -(item.upvotes-item.downvotes);
-	}
-	$scope.upvote = function(item) {
+	};
+	/*$scope.upvote = function(item) {
 		item.upvotes += 1;
 		$.ajax({
           	type: "POST",
@@ -32,56 +47,49 @@ angular.module('myApp.view1', ['ngRoute'])
           	success: update,
           	dataType: "json"
         });
-	};
-
-	$scope.roomId = null;
-    $scope.currentTrack = null;
-    $scope.isPlaying = false;
-    $scope.queue = [];
-
-	$.post("/rooms", function(data) {
-		$scope.$apply(function() {
-			$scope.roomId = data.roomId;
-		});
-    });
+	};*/
 
     var update = function(data) {
     	$scope.$apply(function() {
     		$scope.currentTrack = data.currentTrack;
     		$scope.queue = data.queue;
-    	});
+    		$scope.animate = true;
 
-    	console.log(data);
+    		/*if ($scope.currentTrack === null) {
+    			$scope.nextClicked();
+    		}*/
+    	});
     };
 
 	var player = null;
 
 	var play = function(trackName, artistName) {
-	    if (player != null) {
+		console.log(trackName + " "+ artistName + " " + player);
+	    if (player != null && $scope.isPlaying) {
 	      player.pause();
 	    }
 	    player = window.tomahkAPI.Track(trackName, artistName, {
-	      width: 0,
-	      height: 0,
+	      width: 10,
+	      height: 10,
 	      disabledResolvers: [
-	          "SoundCloud",
-	          "Youtube"
+	          "Youtube",
+	          "Spotify"
 	          // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
 	      ],
 	      handlers: {
 	          onloaded: function() {
-	              //log(currentTrack.connection+":\n  api loaded");
+	              console.log("api loaded");
 	          },
 	          onended: function() {
-	              //log(currentTrack.connection+":\n  Song ended: "+track.artist+" - "+track.title);
+	          	$scope.nextClicked();
 	          },
 	          onplayable: function() {
-	              //log(currentTrack.connection+":\n  playable");
+	          	  console.log(trackName + " "+ artistName);
 	              player.play();
 	              $scope.isPlaying = true;
 	          },
 	          onresolved: function(resolver, result) {
-	              //log(currentTrack.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
+	              //consoler.log(play.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
 	          },
 	          ontimeupdate: function(timeupdate) {
 	          		var currentTime = timeupdate.currentTime;
@@ -140,8 +148,7 @@ angular.module('myApp.view1', ['ngRoute'])
       .autocomplete("instance")._renderItem = function(ul, item) {
         var images = item.album.images;
         return $("<li>")
-          .append("<img src=\"" + images[images.length - 1].url + "\" style=\"float: left; height:100%; \"/>" +
-            "<a style=\"float: left;\">" + item.name + "<br>" + item.artists[0].name + "</a>")
+          .append("<img class=\"dropthumbnail\" src=\"" + images[images.length - 1].url + "\"/>" + "<a style=\"float: left;\"> <span class=\"dropname\">" + item.name + "</span><br><span class=\"dropartist\">" + item.artists[0].name + "</span></a>")
           .appendTo(ul);
       };
       // search enter
@@ -158,6 +165,7 @@ angular.module('myApp.view1', ['ngRoute'])
       $scope.nextClicked = function() {
       	if (player != null && $scope.isPlaying) {
 	      player.pause();
+	      $scope.isPlaying = false;
 	      player = null;
 	    }
       	$.ajax({
@@ -166,7 +174,9 @@ angular.module('myApp.view1', ['ngRoute'])
           	contentType: "application/json",
           	success: function(data) {
           		update(data);
-          		play($scope.currentTrack.name, $scope.currentTrack.artist);
+          		if ($scope.currentTrack != null) {
+          			play($scope.currentTrack.name, $scope.currentTrack.artist);
+          		}
           	},
           	dataType: "json"
         });
@@ -189,5 +199,19 @@ angular.module('myApp.view1', ['ngRoute'])
 	      $scope.isPlaying = false;
 	    }
       };
+
+      var fetch = function() {
+      	$scope.animate = false;
+      	$.ajax({
+          	type: "GET",
+          	url: "/rooms/" + $scope.roomId,
+          	contentType: "application/json",
+          	success: update,
+          	dataType: "json",
+          	cache: false
+        });
+      };
+      fetch();
+      setInterval(fetch, 2000);
 
 }]);
