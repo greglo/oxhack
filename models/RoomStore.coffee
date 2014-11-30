@@ -5,6 +5,10 @@ class RoomStore
   constructor : ->
     @_roomsById = {}
 
+  gotYoed : ->
+    _.forEach @_roomsById, (room) ->
+      room.yo()
+
   hasRoom : (roomId) ->
     _.has @_roomsById, roomId
 

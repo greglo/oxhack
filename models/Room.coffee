@@ -9,10 +9,14 @@ class Room
 
   constructor : (@id) ->
     @nextId       = 0
+    @yos          = 0
     @currentTrack = null
     @queue        = []
 
-  getJSON : -> { @currentTrack, @queue }
+  getJSON : -> { @currentTrack, @queue, @yos }
+
+  yo : ->
+    @yos += 1
 
   upload : ({ name, artist, album, thumbnail }) ->
     id = @nextId

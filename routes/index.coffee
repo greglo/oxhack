@@ -26,6 +26,10 @@ roomStore = new RoomStore()
 #   downvotes : 2
 # }
 
+router.get '^/yo/?$', (req, res) ->
+  roomStore.gotYoed()
+  res.send('Cheers, yo!')
+
 # Response :
 # {
 #   roomId : 'AAAAA'
