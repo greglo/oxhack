@@ -1,7 +1,9 @@
-express = require('express');
+express = require('express')
+bodyParser = require('body-parser')
 routes = require('./routes')
 
 app = express()
+app.use(bodyParser.json())
 app.use '/', routes
 app.use express.static('public')
 

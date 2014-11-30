@@ -1,4 +1,4 @@
-_    = require '../node_modules/lodash/lodash'
+_    = require 'lodash'
 Room = require './Room'
 
 class RoomStore
@@ -16,13 +16,21 @@ class RoomStore
   getRoomState : (roomId) ->
     @_getRoom(roomId).getJSON()
 
-  upvoteRoom : (roomId, trackId) ->
+  upload : (roomId, track) ->
+    room = @_getRoom(roomId)
+    room.upload track
+
+  upvoteTrack : (roomId, trackId) ->
     room = @_getRoom(roomId)
     room.upvoteTrack trackId
 
-  downvoteRoom : (roomId, trackId) ->
+  downvoteTrack : (roomId, trackId) ->
     room = @_getRoom(roomId)
     room.downvoteTrack trackId
+
+  playNext : (roomId) ->
+    room = @_getRoom(roomId)
+    room.playNext()
 
   _getRoom : (roomId) ->
     if @hasRoom(roomId)
@@ -42,6 +50,6 @@ class RoomStore
     id = possiblyNotUniqueId()
     while (_.has @_roomsById, id)
       id = possiblyNotUniqueId()
-    id
+    'AAAAA'
 
 module.exports = RoomStore

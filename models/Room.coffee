@@ -1,4 +1,6 @@
-# QueueState = require('./QueueState')
+Track = require('./Track')
+_    = require 'lodash'
+
 
 class Room
   # @id
@@ -6,10 +8,18 @@ class Room
   # @queue
 
   constructor : (@id) ->
+    @nextId       = 0
     @currentTrack = null
     @queue        = []
 
   getJSON : -> { @currentTrack, @queue }
+
+  upload : ({ name, artist, album, thumbnail }) ->
+    id = @nextId
+    @nextId += 1
+    track = new Track(id, name, artist, album, thumbnail)
+    @queue.push track
+    @_sort()
 
   upvoteTrack : (trackId) ->
     track = @_findInQueue trackId
@@ -27,11 +37,16 @@ class Room
     else
       throw "Track with id #{trackId} not found"
 
+  playNext : ->
+    if (@queue.length > 0)
+      @currentTrack = @queue.shift()
+
   _findInQueue : (trackId) ->
-    _.find @queue, ({ id }) -> id is trackId
+    _.find @queue, ({ id }) ->
+      id is trackId
 
   _sort : () ->
-    @queue = _.sort @queue, ({ upvotes, downvotes }) ->
+    @queue = _.sortBy @queue, ({ upvotes, downvotes }) ->
       downvotes - upvotes
 
 module.exports = Room
