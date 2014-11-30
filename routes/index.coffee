@@ -1,4 +1,5 @@
 express   = require('express')
+_         = require('lodash')
 RoomStore = require('../models/RoomStore')
 
 router = express.Router()
@@ -39,19 +40,45 @@ router.get "^/rooms/:id(#{roomIdRegex})/?$", (req, res) ->
     res.status(404).send { error : e }
 
 # Response : RoomState
-router.post "^/rooms/#{roomIdRegex}/tracks/?$", (req, res) ->
-  res.send 'Uploaded track'
+router.post "^/rooms/:id(#{roomIdRegex})/tracks/?$", (req, res) ->
+  roomId = req.params.id
+  { name, artist, album, thumbnail } = req.body
+  if name? and artist? and album? and thumbnail?
+    try
+      roomStore.upload(roomId, { name, artist, album, thumbnail })
+      res.send roomStore.getRoomState(roomId)
+    catch e
+      res.status(404).send { error : e }
+  else
+    res.status(404).send { error : "Not all the data needed to upload a track was send" }
 
 # Response : RoomState
-router.post "^/rooms/#{roomIdRegex}/tracks/#{trackIdRegex}/upvote/?$", (req, res) ->
-  res.send 'Upvoted track'
+router.post "^/rooms/:roomId(#{roomIdRegex})/tracks/:trackId(#{trackIdRegex})/upvote/?$", (req, res) ->
+  roomId = req.params.roomId
+  trackId = _.parseInt req.params.trackId, 10
+  try
+    roomStore.upvoteTrack roomId, trackId
+    res.send roomStore.getRoomState(roomId)
+  catch e
+    res.status(404).send { error : e }
 
 # Response : RoomState
-router.post "^/rooms/#{roomIdRegex}/tracks/#{trackIdRegex}/downvote/?$", (req, res) ->
-  res.send 'Downvoted track'
+router.post "^/rooms/:roomId(#{roomIdRegex})/tracks/:trackId(#{trackIdRegex})/downvote/?$", (req, res) ->
+  roomId = req.params.roomId
+  trackId = _.parseInt req.params.trackId, 10
+  try
+    roomStore.downvoteTrack roomId, trackId
+    res.send roomStore.getRoomState(roomId)
+  catch e
+    res.status(404).send { error : e }
 
 # Response : RoomState
-router.post "^/rooms/#{roomIdRegex}/playNext/?$", (req, res) ->
-  res.send 'Playing next track'
+router.post "^/rooms/:id(#{roomIdRegex})/playNext/?$", (req, res) ->
+  roomId = req.params.id
+  try
+    roomStore.playNext roomId
+    res.send roomStore.getRoomState(roomId)
+  catch e
+    res.status(404).send { error : e }
 
 module.exports = router

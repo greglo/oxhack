@@ -9,6 +9,7 @@
   "dependencies": {
     "coffee-script"       : "1.7.x",
     "express"             : "4.x",
+    "body-parser"         : "1.9.x",
     "lodash"              : "2.4.x",
     "q"                   : "1.0.x",
     "request"             : "2.40.x",
