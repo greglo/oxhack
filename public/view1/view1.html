@@ -10,9 +10,9 @@
 		<span>{{item.name}}</span>
 		<span>{{item.artist}}</span>
 		<span>{{item.album}}</span>
-		<span>votes: {{item.votes}}</span>
-		<button ng-click="vote(item, 1)">upvote</button>
-		<button ng-click="vote(item, -1)">downvote</button>
+		<span>votes: {{item.upvotes-item.downvotes}}</span>
+		<button ng-click="upvote(item)">upvote</button>
+		<button ng-click="downvote(item)">downvote</button>
 		<br>
 	</div>
 
@@ -21,7 +21,7 @@
 	</div>
 
 	<div>
-		currently playing: {{}}
+		currently playing: {{currentTrack.name}} <br>
 
 		<button ng-click="playClicked()">PLAY</button>
 	</div>

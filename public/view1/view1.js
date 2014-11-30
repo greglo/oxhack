@@ -13,8 +13,25 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.queueSorter = function(item) {
 		return -parseInt(item.votes, 10);
 	}
-	$scope.vote = function(item, delta) {
-		item.votes += delta;
+	$scope.upvote = function(item) {
+		item.upvotes += 1;
+		$.ajax({
+          	type: "POST",
+          	url: "/rooms/" + $scope.roomId + "/tracks/" + item.id + "/upvote",
+          	contentType: "application/json",
+          	success: update,
+          	dataType: "json"
+        });
+	};
+	$scope.downvote = function(item) {
+		item.downvotes += 1;
+		$.ajax({
+          	type: "POST",
+          	url: "/rooms/" + $scope.roomId + "/tracks/" + item.id + "/downvote",
+          	contentType: "application/json",
+          	success: update,
+          	dataType: "json"
+        });
 	};
 
 	$scope.roomId = null;
@@ -93,16 +110,21 @@ angular.module('myApp.view1', ['ngRoute'])
           return false;
         },
         select: function(event, ui) {
-          //$("#song_search").val(ui.item.name + ", " + ui.item.artists[0].name);
+          $("#song_search").val("");
 
-          console.log("NNOOW");
-
-          $.post("/rooms/" + $scope.roomId + "/tracks", {
-            name: ui.item.name,
-            artist: ui.item.artists[0].name,
-            album: ui.item.album.name,
-            thumbnail: ui.item.album.images[0].url
-          }, update, "json");
+          $.ajax({
+          	type: "POST",
+          	url: "/rooms/" + $scope.roomId + "/tracks",
+          	data: JSON.stringify({
+	            "name": ui.item.name,
+	            "artist": ui.item.artists[0].name,
+	            "album": ui.item.album.name,
+	            "thumbnail": ui.item.album.images[0].url
+          	}),
+          	contentType: "application/json",
+          	success: update,
+          	dataType: "json"
+          });
 
           return false;
         },
@@ -130,10 +152,17 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
       $scope.playClicked = function() {
-      	$.post("/rooms/" + $scope.roomId + "/playNext", {}, function() {
-      		update();
-      		play($scope.currentTrack.name, $scope.currentTrack.artist);
-      	});
+      	$.ajax({
+          	type: "POST",
+          	url: "/rooms/" + $scope.roomId + "/playNext",
+          	contentType: "application/json",
+          	success: function(data) {
+          		update(data);
+          		play($scope.currentTrack.name, $scope.currentTrack.artist);
+          	},
+          	dataType: "json"
+        });
+
       };   
 
 }]);
