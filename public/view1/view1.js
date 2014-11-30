@@ -3,13 +3,29 @@
 angular.module('myApp.view1', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
+  $routeProvider.when('/party/:partyId', {
     templateUrl: 'view1/view1.html',
     controller: 'View1Ctrl'
   });
 }])
+.controller('View1Ctrl', ['$scope', '$routeParams', '$location', function($scope, $routeParams, $location) {
+	if ($routeParams.partyId === 'new') {
+		$.post("/rooms", function(data) {
+			$scope.$apply(function() {
+				$scope.roomId = data.roomId;
+				$location.path('/party/' + data.roomId);
+			});
+	    });
+	    return;
+	}
 
-.controller('View1Ctrl', ['$scope', function($scope) {
+	$scope.roomId = $routeParams.partyId;
+
+	$scope.currentTrack = null;
+    $scope.isPlaying = false;
+    $scope.queue = [];
+
+
 	$scope.queueSorter = function(item) {
 		return -(item.upvotes-item.downvotes);
 	}
@@ -34,24 +50,15 @@ angular.module('myApp.view1', ['ngRoute'])
         });
 	};
 
-	$scope.roomId = null;
-    $scope.currentTrack = null;
-    $scope.isPlaying = false;
-    $scope.queue = [];
-
-	$.post("/rooms", function(data) {
-		$scope.$apply(function() {
-			$scope.roomId = data.roomId;
-		});
-    });
-
     var update = function(data) {
     	$scope.$apply(function() {
     		$scope.currentTrack = data.currentTrack;
     		$scope.queue = data.queue;
-    	});
 
-    	console.log(data);
+    		if ($scope.currentTrack === null) {
+    			$scope.nextClicked();
+    		}
+    	});
     };
 
 	var player = null;
@@ -73,10 +80,9 @@ angular.module('myApp.view1', ['ngRoute'])
 	              //log(currentTrack.connection+":\n  api loaded");
 	          },
 	          onended: function() {
-	              //log(currentTrack.connection+":\n  Song ended: "+track.artist+" - "+track.title);
+	          	$scope.nextClicked();
 	          },
 	          onplayable: function() {
-	              //log(currentTrack.connection+":\n  playable");
 	              player.play();
 	              $scope.isPlaying = true;
 	          },
@@ -189,5 +195,17 @@ angular.module('myApp.view1', ['ngRoute'])
 	      $scope.isPlaying = false;
 	    }
       };
+
+      var fetch = function() {
+      	$.ajax({
+          	type: "GET",
+          	url: "/rooms/" + $scope.roomId,
+          	contentType: "application/json",
+          	success: update,
+          	dataType: "json"
+        });
+      };
+      fetch();
+      setInterval(fetch, 2000);
 
 }]);
