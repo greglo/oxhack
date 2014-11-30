@@ -6,7 +6,7 @@
 				Party: <span id="room-id">{{roomId}}</span>
 			</div>
 		</div>
-	</div>
+</div>
 
 	<div id="main-view">
 
@@ -26,7 +26,7 @@
 
 		<br>
 		<div class="item" ng-repeat="item in queue | orderBy: queueSorter">
-			<img class="thumbnail" src="{{item.thumbnail}}" />
+			<img class="thumbnail" ng-src="{{item.thumbnail}}" />
 			<span class="deets">
 				<div class="name">{{item.name}}</div>
 				<div class="artist">{{item.artist}}</div>
@@ -34,4 +34,3 @@
 			<div style="clear: both;"></div>
 		</div>
 	</div>
-</div>

@@ -28,7 +28,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
 	$scope.queueSorter = function(item) {
 		return -(item.upvotes-item.downvotes);
-	}
+	};
 	/*$scope.upvote = function(item) {
 		item.upvotes += 1;
 		$.ajax({
@@ -72,8 +72,8 @@ angular.module('myApp.view1', ['ngRoute'])
 	      width: 10,
 	      height: 10,
 	      disabledResolvers: [
-	          "SoundCloud",
-	          "Youtube"
+	          "Youtube",
+	          "Spotify"
 	          // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
 	      ],
 	      handlers: {
@@ -89,7 +89,7 @@ angular.module('myApp.view1', ['ngRoute'])
 	              $scope.isPlaying = true;
 	          },
 	          onresolved: function(resolver, result) {
-	              //log(currentTrack.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
+	              //consoler.log(play.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
 	          },
 	          ontimeupdate: function(timeupdate) {
 	          		var currentTime = timeupdate.currentTime;
@@ -148,8 +148,7 @@ angular.module('myApp.view1', ['ngRoute'])
       .autocomplete("instance")._renderItem = function(ul, item) {
         var images = item.album.images;
         return $("<li>")
-          .append("<img class=\"dropthumbnail\" src=\"" + images[images.length - 1].url + "\"/>" +
-            "<a style=\"float: left;\"> <span class=\"dropname\">" + item.name + "</span><br><span class=\"dropartist\">" + item.artists[0].name + "</span></a>")
+          .append("<img class=\"dropthumbnail\" src=\"" + images[images.length - 1].url + "\"/>" + "<a style=\"float: left;\"> <span class=\"dropname\">" + item.name + "</span><br><span class=\"dropartist\">" + item.artists[0].name + "</span></a>")
           .appendTo(ul);
       };
       // search enter
@@ -201,16 +200,17 @@ angular.module('myApp.view1', ['ngRoute'])
 	    }
       };
 
-      var fetch = function() {
+      /*var fetch = function() {
       	$.ajax({
           	type: "GET",
           	url: "/rooms/" + $scope.roomId,
           	contentType: "application/json",
           	success: update,
-          	dataType: "json"
+          	dataType: "json",
+          	cache: false
         });
       };
       fetch();
-      setInterval(fetch, 2000);
+      setInterval(fetch, 2000);*/
 
 }]);
