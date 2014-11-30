@@ -193,3 +193,20 @@ h1 {
 .upvotes_red {
   color: rgb(190,10,10);
 }
+
+#progress {
+  width:100%;
+  height: 4px;
+}
+#progress .done {
+  position: absolute;
+  background-color: #A00;
+  height: 4px;
+  z-index: 100;
+}
+#progress .background {
+  position: absolute;
+  width:100%;
+  height: 4px;
+  background-color: #777;
+}
