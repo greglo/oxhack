@@ -12,6 +12,7 @@
     "body-parser"         : "1.9.x",
     "lodash"              : "2.4.x",
     "q"                   : "1.0.x",
+    "http"                : "latest",
     "request"             : "2.40.x",
     "requirejs"           : "2.x"
   },
