@@ -27,13 +27,15 @@
 		</div>
 
 		<br>
-		<div class="item" ng-repeat="item in queue | orderBy: queueSorter | limitTo: 4">
+		<div class="item" ng-repeat="item in queue | orderBy: queueSorter | limitTo: 4" id="{{item.id}}">
 			<img class="thumbnail" ng-src="{{item.thumbnail}}" />
 			<span class="deets">
 				<div class="name">{{item.name}}</div>
 				<div class="artist">{{item.artist}}</div>
 			</span>
-			{{item.upvotes - item.downvotes}}
+			<span class="upvotes" ng-class="{upvotes_green: item.upvotes > item.downvotes, upvotes_red: item.upvotes < item.downvotes}">
+				{{item.upvotes - item.downvotes}}
+			</span>
 			<div style="clear: both;"></div>
 		</div>
 	</div>

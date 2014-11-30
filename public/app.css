@@ -180,4 +180,16 @@ h1 {
 }
 
 
-.deets .
+.upvotes {
+  float: right;
+  padding-top: 12px;
+  padding-right: 10px;
+  font-size: 2em;
+}
+
+.upvote_green {
+  color: rgb(0,255,0);
+}
+.upvote_red {
+  color: rgb(0,255,0);
+}

@@ -53,6 +53,7 @@ angular.module('myApp.view1', ['ngRoute'])
     	$scope.$apply(function() {
     		$scope.currentTrack = data.currentTrack;
     		$scope.queue = data.queue;
+    		$scope.animate = true;
 
     		/*if ($scope.currentTrack === null) {
     			$scope.nextClicked();
@@ -200,6 +201,7 @@ angular.module('myApp.view1', ['ngRoute'])
       };
 
       var fetch = function() {
+      	$scope.animate = false;
       	$.ajax({
           	type: "GET",
           	url: "/rooms/" + $scope.roomId,
