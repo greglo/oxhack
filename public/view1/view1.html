@@ -33,7 +33,7 @@
 				<div class="name">{{item.name}}</div>
 				<div class="artist">{{item.artist}}</div>
 			</span>
-			<span class="upvotes" ng-class="{upvotes_green: item.upvotes > item.downvotes, upvotes_red: item.upvotes < item.downvotes}">
+			<span class="upvotes" ng-class="{'upvotes_green': item.upvotes > item.downvotes, 'upvotes_red': item.upvotes < item.downvotes}">
 				{{item.upvotes - item.downvotes}}
 			</span>
 			<div style="clear: both;"></div>

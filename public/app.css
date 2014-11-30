@@ -187,9 +187,9 @@ h1 {
   font-size: 2em;
 }
 
-.upvote_green {
-  color: rgb(0,255,0);
+.upvotes_green {
+  color: rgb(70,25,180);
 }
-.upvote_red {
-  color: rgb(0,255,0);
+.upvotes_red {
+  color: rgb(75,190,10);
 }
