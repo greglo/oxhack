@@ -92,7 +92,7 @@ angular.module('myApp.view1', ['ngRoute'])
 	      height: 10,
 	      disabledResolvers: [
 	          "Youtube",
-	          "Spotify"
+	          "SpotifyMetadata"
 	          // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
 	      ],
 	      handlers: {
