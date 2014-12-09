@@ -41,6 +41,8 @@ class Room
   playNext : ->
     if (@queue.length > 0)
       @currentTrack = @queue.shift()
+    else
+      @currentTrack = null
 
   _findInQueue : (trackId) ->
     _.find @queue, ({ id }) ->
