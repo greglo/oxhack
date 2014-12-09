@@ -40,9 +40,6 @@ service('MusicQueue', ['$rootScope', '$timeout', '$http',
 			$timeout(function() {
 				$rootScope.queue = data.queue;
 				$rootScope.currentTrack = data.currentTrack;
-				if (!$rootScope.currentTrack)
-					playNext();
-
 			});
 		}
 		function update() {
