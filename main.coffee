@@ -5,7 +5,7 @@ routes = require('./routes')
 app = express()
 app.use(bodyParser.json())
 app.use '/', routes
-app.use express.static('public')
+app.use express.static('public_new')
 
 
 # catch 404 and forwarding to error handler

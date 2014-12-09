@@ -1,0 +1,54 @@
+<div id="wrapper" ng-controller="mainCtrl">	
+	<div id="header-wrap">
+		<div id="header">
+			<div id="logo"></div>
+			<span id="room-display">
+				Party: <span id="room-id">{{roomId}}</span>
+			</span>
+		</div>
+	</div>
+
+	<div id="progress">
+		<div class="done" style="width:{{(currentTime*100)/duration}}%"> </div>
+		<div class="background"> </div>
+	</div>
+
+	<div id="main-view">
+		<div id="player_dummy"></div>
+
+		<h1>Currently Playing: <span class="currentname">{{currentTrack.name}}</span></h1>
+
+		<input type="text" search-song-autocomplete id="song_search" placeholder="Add track..." />
+
+		<div>
+			<center>
+				<button class="control" ng-show="isPlaying" ng-click="pauseClicked()"><i class="fa fa-pause"></i></button>
+				<button class="control" ng-hide="isPlaying" ng-click="playClicked()"><i class="fa fa-play"></i></button>
+				<button class="control" ng-click="nextClicked()"><i class="fa fa-forward"></i></button>
+			</center>
+			<div align="right">
+				show player <input type="checkbox" ng-model="showPlayer">
+			</div>
+		</div>
+
+		<br>
+
+		<div ng-show="showPlayer"><center>
+			<youtube-video player-vars="youtubePlayerVars" video-id="youtubeVideoId" player="youtubePlayer"></youtube-video>
+		</center></div>
+
+		<br>
+
+		<div class="item" ng-repeat="item in queue | orderBy: queueSorter | limitTo: 4" id="{{item.id}}">
+			<img class="thumbnail" ng-src="{{item.thumbnail}}" />
+			<span class="deets">
+				<div class="name">{{item.name}}</div>
+				<div class="artist">{{item.artist}}</div>
+			</span>
+			<span class="upvotes" ng-class="{'upvotes_green': item.upvotes > item.downvotes, 'upvotes_red': item.upvotes < item.downvotes}">
+				{{item.upvotes - item.downvotes}}
+			</span>
+			<div style="clear: both;"></div>
+		</div>
+	</div>
+</div>

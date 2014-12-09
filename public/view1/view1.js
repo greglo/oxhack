@@ -115,6 +115,10 @@ angular.module('myApp.view1', ['ngRoute'])
 	          ontimeupdate: function(timeupdate) {
 	          		var currentTime = timeupdate.currentTime;
 	              	var duration = timeupdate.duration;
+
+	              	if (currentTime/duration >= 0.98) {
+	              		$scope.nextClicked();
+	              	}
 	              	
 	          		$scope.$apply(function() {
 	          			$scope.currentTime = parseInt(currentTime);

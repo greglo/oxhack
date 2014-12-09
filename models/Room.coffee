@@ -8,7 +8,6 @@ class Room
   # @queue
 
   constructor : (@id) ->
-    @nextId       = 0
     @yos          = 0
     @currentTrack = null
     @queue        = []
@@ -18,9 +17,7 @@ class Room
   yo : ->
     @yos += 1
 
-  upload : ({ name, artist, album, thumbnail }) ->
-    id = @nextId
-    @nextId += 1
+  upload : ({ id, name, artist, album, thumbnail }) ->
     track = new Track(id, name, artist, album, thumbnail)
     @queue.push track
     @_sort()

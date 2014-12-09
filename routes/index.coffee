@@ -35,6 +35,7 @@ router.get '^/yo/?$', (req, res) ->
 #   roomId : 'AAAAA'
 # }
 router.post "^/rooms/?$", (req, res) ->
+  console.log "created room"
   res.send roomStore.createRoom()
 
 # Response : RoomState
@@ -48,10 +49,12 @@ router.get "^/rooms/:id(#{roomIdRegex})/?$", (req, res) ->
 # Response : RoomState
 router.post "^/rooms/:id(#{roomIdRegex})/tracks/?$", (req, res) ->
   roomId = req.params.id
-  { name, artist, album, thumbnail } = req.body
-  if name? and artist? and album? and thumbnail?
+  console.log (req.body)
+  { id, name, artist, album, thumbnail } = req.body
+  console.log ({ id, name, artist, album, thumbnail })
+  if id? and name? and artist? and album? and thumbnail?
     try
-      roomStore.upload(roomId, { name, artist, album, thumbnail })
+      roomStore.upload(roomId, { id, name, artist, album, thumbnail })
       res.send roomStore.getRoomState(roomId)
     catch e
       res.status(404).send { error : e }
