@@ -64,10 +64,26 @@ service('MusicQueue', ['$rootScope', '$timeout', '$http',
 		function playNext() {
 			$http.post('/rooms/' + $rootScope.roomId + '/playNext').success(updateScope);
 		}
+		function upvote(id) {
+			$http({
+				method: 'POST',
+				url: '/rooms/' + $rootScope.roomId + '/tracks/' + id + '/upvote',
+
+			}).success(updateScope);
+		}
+		function downvote(id) {
+			$http({
+				method: 'POST',
+				url: '/rooms/' + $rootScope.roomId + '/tracks/' + id + '/downvote',
+
+			}).success(updateScope);
+		}
 		return {
 			update: update,
 			addTrack: addTrack,
-			playNext: playNext
+			playNext: playNext,
+			upvote: upvote,
+			downvote: downvote
 		};
 	}
 ]);

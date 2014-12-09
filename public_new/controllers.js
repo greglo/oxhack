@@ -56,6 +56,12 @@ controller('mainCtrl', ['$scope', '$timeout', '$rootScope', '$routeParams', '$lo
 		$scope.nextClicked = function() {
 			MusicQueue.playNext();
 		};
+		$scope.upvote = function(id) {
+			MusicQueue.upvote(id);
+		};
+		$scope.downvote = function(id) {
+			MusicQueue.downvote(id);
+		};
 
 		// progress bar
 		setInterval(function() {
