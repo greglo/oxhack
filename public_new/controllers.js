@@ -25,7 +25,7 @@ controller('mainCtrl', ['$scope', '$timeout', '$rootScope', '$routeParams', '$lo
 		$scope.showPlayer = true;
 		$scope.youtubeVideoId = '';
 		$scope.youtubePlayerVars = {
-			controls: 0
+			controls: 1
 		};
 
 		// https://github.com/brandly/angular-youtube-embed
@@ -35,6 +35,8 @@ controller('mainCtrl', ['$scope', '$timeout', '$rootScope', '$routeParams', '$lo
 		});
 		$scope.$on('youtube.player.ended', function($event) {
 			console.log('current song ended')
+			$scope.currentTime = 0;
+			$scope.isPlaying = false;
 			$scope.nextClicked();
 		});
 
